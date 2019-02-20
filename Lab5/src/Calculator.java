@@ -40,7 +40,7 @@ public class Calculator
         if (command.equalsIgnoreCase("negate")) {
         	return Math.negateExact(a);
         } else if (command.equalsIgnoreCase("halve")) {
-        	return Math.round((float)a / 2);
+        	return (int) Math.floor((double)a / 2);
         } else {
         	throw new CalculatorException("Illegal Command");
         }
