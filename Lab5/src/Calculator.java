@@ -141,8 +141,14 @@ public class Calculator
      */
     public static String parseAndExecute(String input)
     {
-        // TODO: complete this...
-        // Hint: you should try and call execute(). If execute encounters an error, it will throw an exception. This
-        // method will catch those exceptions and respond accordingly.
+    	int output = 0;
+    	String[] tokens = input.split(" ");
+    	try {
+			output = execute(tokens);
+		} catch (NumberFormatException | CalculatorException e) {
+			System.out.println("Error: PARSEANDEXECUTE");
+			e.printStackTrace();
+		}
+    	return "" + output;
     }
 }
