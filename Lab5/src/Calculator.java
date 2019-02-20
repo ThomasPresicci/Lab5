@@ -35,7 +35,15 @@ public class Calculator
     protected static int calculateTwoTokens(String[] tokens) throws NumberFormatException, CalculatorException
     {
         int a = Integer.parseInt(tokens[1]); // Throws NumberFormatException if the second token is not an int value.
-        // TODO: complete this...
+        String command = tokens[0];
+        
+        if (command.equalsIgnoreCase("negate")) {
+        	return Math.negateExact(a);
+        } else if (command.equalsIgnoreCase("halve")) {
+        	return Math.round((float)a / 2);
+        } else {
+        	throw new CalculatorException("Illegal Command");
+        }
     }
 
     /**
@@ -69,7 +77,20 @@ public class Calculator
     protected static int calculateThreeTokens(String[] tokens)
             throws ArithmeticException, NumberFormatException, CalculatorException
     {
-        // TODO: complete this...
+    	int num1 = Integer.parseInt(tokens[0]);
+    	int num2 = Integer.parseInt(tokens[2]);
+    	
+    	String command = tokens[1];
+    	
+    	if (command.equalsIgnoreCase("+")) {
+    		return (num1 + num2);
+    	} else if (command.equalsIgnoreCase("-")) {
+    		return (num1 - num2);
+    	} else if (command.equalsIgnoreCase("/")) {
+    		return (num1 / num2);
+    	} else {
+    		throw new CalculatorException("Illegal Command");
+    	}
     }
 
     /**
@@ -102,12 +123,21 @@ public class Calculator
      */
     protected static int execute(String[] tokens) throws NumberFormatException, CalculatorException
     {
-        // Condition on the number of tokens (number of strings in user input separated by spaces)
-        switch(tokens.length)
+    	switch(tokens.length)
         {
-            // TODO: complete this...
+            case 1:
+            	if (tokens[0].equalsIgnoreCase("quit")) {
+            		return Integer.MIN_VALUE;
+            	} else {
+            		throw new CalculatorException("Illegal Command");
+            	}
+            case 2:
+            	return calculateTwoTokens(tokens);
+            case 3:
+            	return calculateThreeTokens(tokens);
+            default:
+            	throw new CalculatorException("Illegal Token Length");
         }
-
     }
 
     /**
@@ -141,14 +171,18 @@ public class Calculator
      */
     public static String parseAndExecute(String input)
     {
-    	int output = 0;
-    	String[] tokens = input.split(" ");
     	try {
-			output = execute(tokens);
-		} catch (NumberFormatException | CalculatorException e) {
-			System.out.println("Error: PARSEANDEXECUTE");
-			e.printStackTrace();
+    		int output = execute(input.split(" "));
+    		if (output == Integer.MIN_VALUE)
+    			return "quit";
+    		else
+    			return "" + output;
+		} catch (NumberFormatException e) {
+			return "Input number cannot be parsed to an int. Please try again.";
+		} catch (ArithmeticException e) {
+			return "Attempted to divide by 0. Please try again.";
+		} catch (CalculatorException e) {
+			return "Calculator Exception, message is: " + e.getMessage();
 		}
-    	return "" + output;
     }
 }
