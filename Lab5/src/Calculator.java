@@ -128,6 +128,8 @@ public class Calculator
             case 1:
             	if (tokens[0].equalsIgnoreCase("quit")) {
             		return Integer.MIN_VALUE;
+            	} else if (tokens[0].equalsIgnoreCase("")){
+            		throw new CalculatorException("Illegal Token Length");
             	} else {
             		throw new CalculatorException("Illegal Command");
             	}
@@ -176,7 +178,7 @@ public class Calculator
     		if (output == Integer.MIN_VALUE)
     			return "quit";
     		else
-    			return "" + output;
+    			return "The result is: " + output;
 		} catch (NumberFormatException e) {
 			return "Input number cannot be parsed to an int. Please try again.";
 		} catch (ArithmeticException e) {
